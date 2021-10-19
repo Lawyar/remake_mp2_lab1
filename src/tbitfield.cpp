@@ -190,7 +190,7 @@ void TBitField::print()
 {
     for(auto it : vec_mem)
     {
-        cout << it << " ";
+        cout << it;
     }
     cout << "\n";
 }

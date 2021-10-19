@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -12,9 +13,10 @@ class TBitField
 private:
 
     vector<char> vec_mem;
+    int int_size(long a);
 
 public:
-    explicit TBitField(int len = 1);                           //+
+    explicit TBitField(long size = 1);                           //+
     TBitField(const TBitField &bf);               //+
 
     // доступ к битам
@@ -24,7 +26,6 @@ public:
     int  GetBit(int pos) const;             //+   получить значение бита
 
     void set_number10(ulong number10);            //+
-    void set_string2(string str2);                //+
 
     ulong to_ulong10();                           //+
     string to_string2();                          //+

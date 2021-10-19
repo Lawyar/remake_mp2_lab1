@@ -1,17 +1,17 @@
 #include "tbitfield.h"
 
-
-TBitField::TBitField(int len)
+int TBitField::int_size(long a)
 {
-    if(len <= 0)
+    return ceil(std::log2(a + 1));
+}
+
+TBitField::TBitField(long size)
+{
+    if(size < 0)
     {
-        throw std::logic_error("LENGTH SHOULD BE GREATER THAN ZERO");
+        throw std::logic_error("INCORRECT SIZE");
     }
-    vec_mem.resize(len);
-    for(auto &it : vec_mem)
-    {
-        it = '0';
-    }
+    vec_mem.resize(size, '0');
 }
 
 TBitField::TBitField(const TBitField &bf)
@@ -46,49 +46,23 @@ int TBitField::GetBit(const int pos) const
 {
     if(pos < 0 || pos >= vec_mem.size())
     {
-        throw "ANY";
+        throw std::logic_error("INCORRECT INDEX");
     }
     return vec_mem[pos] - '0';
 }
 
 void TBitField::set_number10(ulong number10)
 {
-    if(number10 > INT32_MAX)
+    vec_mem.clear();
+    vec_mem.resize(int_size(number10), '0');
+    int i = vec_mem.size() - 1;
+    while(number10 > 0)
     {
-        vec_mem.resize(64, '0');
-    }
-    else if(number10 > INT16_MAX)
-    {
-        vec_mem.resize(32, '0');
-    }
-    else if(number10 > INT8_MAX)
-    {
-        vec_mem.resize(16, '0');
-    }
-    else
-    {
-        vec_mem.resize(8, '0');
-    }
-    for(auto it = vec_mem.rbegin(); it != vec_mem.rend(), number10 > 0; it++)
-    {
-        *it = number10 % 2 + '0';
+        vec_mem[i] = number10 % 2 + '0';
+        i--;
         number10 /= 2;
     }
 }
-
-void TBitField::set_string2(string str2)
-{
-    vec_mem.resize(str2.length());
-    for(auto &it : vec_mem)
-    {
-        it = '0';
-    }
-    for(int i = 0; i < str2.length(); i++)
-    {
-        vec_mem[i] = str2[i];
-    }
-}
-
 
 ulong TBitField::to_ulong10()
 {
@@ -110,6 +84,7 @@ string TBitField::to_string2()
     {
         res.push_back(vec_mem[i]);
     }
+
     return res;
 }
 TBitField& TBitField::operator=(const TBitField &bf)
@@ -150,7 +125,8 @@ TBitField TBitField::operator|(const TBitField &bf)
     }
     TBitField tmpbit(bf);
     TBitField ress(maxsize);
-    ulong tmp = this->to_ulong10() | tmpbit.to_ulong10();
+    ulong a = this->to_ulong10(), b = tmpbit.to_ulong10();
+    ulong tmp = a | b;
     ress.set_number10(tmp);
 
     return ress;
@@ -168,8 +144,9 @@ TBitField TBitField::operator&(const TBitField &bf)
         maxsize = bf.GetLength();
     }
     TBitField tmpbit(bf);
-    TBitField ress(maxsize);
-    ulong tmp = this->to_ulong10() & tmpbit.to_ulong10();
+    TBitField ress(maxsize + 1);
+    ulong a = this->to_ulong10(), b = tmpbit.to_ulong10();
+    ulong tmp = a & b;
     ress.set_number10(tmp);
     return ress;
 }

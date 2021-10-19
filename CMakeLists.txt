@@ -7,10 +7,11 @@ include_directories(inc)
 set(SOURCES
         main.cpp
         src/tbitfield.cpp
-        src/tset.cpp test/test_tset.cpp test/test_tbitfield.cpp)
+        src/tset.cpp
+        test/test_tset.cpp
+        test/test_tbitfield.cpp)
 
 set(HEADERS
-        inc
         inc)
 
 include(FetchContent)

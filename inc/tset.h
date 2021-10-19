@@ -14,21 +14,21 @@ public:
     TSet(const TBitField &bf);            // конструктор преобразования типа
     operator TBitField();                 // преобразование типа к битовому полю
     // доступ к битам
-    int GetMaxPower(void) const;          // максимальная мощность множества
-    void InsElem(const int Elem);         // включить элемент в множество
-    void DelElem(const int Elem);         // удалить элемент из множества
-    int IsMember(const int Elem) const;   // проверить наличие элемента в множестве
+    int GetMaxPower() const;          // максимальная мощность множества
+    void InsElem(int Elem);         // включить элемент в множество
+    void DelElem(int Elem);         // удалить элемент из множества
+    int IsMember(int Elem) const;   // проверить наличие элемента в множестве
     // теоретико-множественные операции
     int operator== (const TSet &s) const; // сравнение
     int operator!= (const TSet &s) const; // сравнение
     TSet& operator=(const TSet &s);       // присваивание
-    TSet operator+ (const int Elem);      // объединение с элементом
+    TSet operator+ (int Elem);      // объединение с элементом
     // элемент должен быть из того же универса
-    TSet operator- (const int Elem);      // разность с элементом
+    TSet operator- (int Elem);      // разность с элементом
     // элемент должен быть из того же универса
     TSet operator+ (const TSet &s);       // объединение
     TSet operator* (const TSet &s);       // пересечение
-    TSet operator~ (void);                // дополнение
+    TSet operator~ ();                // дополнение
 
 };
 #endif
